@@ -1,134 +1,425 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="zh">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2113.65">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; color: #000000; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; color: #000000; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-kerning: none}
-    span.s2 {font: 12.0px 'Songti SC'; font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>俄罗斯方块</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        
+        #game-container {
+            display: flex;
+            gap: 20px;
+        }
+        
+        #tetris-canvas {
+            border: 2px solid #333;
+            background-color: #111;
+        }
+        
+        #side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        #next-piece {
+            border: 2px solid #333;
+            background-color: #111;
+        }
+        
+        #score-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        #level-display {
+            font-size: 20px;
+            color: #333;
+        }
+        
+        #game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+        
+        #restart-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        #restart-btn:hover {
+            background-color: #45a049;
+        }
+        
+        #controls {
+            margin-top: 20px;
+            text-align: center;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="zh"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;</span><span class="s2">贪吃蛇游戏</span><span class="s1">&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: #222;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>display: flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>justify-content: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>align-items: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>height: 100vh;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>margin: 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>canvas {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: #111;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>border: 2px solid #fff;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#score {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position: absolute;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>top: 20px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>color: #fff;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-size: 20px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-family: sans-serif;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;canvas id="game" width="400" height="400"&gt;&lt;/canvas&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="score"&gt;</span><span class="s2">得分</span><span class="s1">: 0&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const canvas = document.getElementById("game");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const ctx = canvas.getContext("2d");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const box = 20;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const rows = canvas.height / box;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const cols = canvas.width / box;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let score = 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let snake = [{x: 9 * box, y: 9 * box}];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let food = randomPosition();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let dx = box, dy = 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let game = null;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.addEventListener("keydown", direction);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function direction(e) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const key = e.key;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (key === "ArrowLeft" &amp;&amp; dx !== box) { dx = -box; dy = 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>else if (key === "ArrowUp" &amp;&amp; dy !== box) { dx = 0; dy = -box; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>else if (key === "ArrowRight" &amp;&amp; dx !== -box) { dx = box; dy = 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>else if (key === "ArrowDown" &amp;&amp; dy !== -box) { dx = 0; dy = box; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function randomPosition() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let position;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>do {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>position = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>x: Math.floor(Math.random() * cols) * box,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>y: Math.floor(Math.random() * rows) * box</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} while (snake.some(segment =&gt; segment.x === position.x &amp;&amp; segment.y === position.y));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return position;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function updateSpeed() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>clearInterval(game);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const speed = Math.max(50, 100 - Math.floor(score/5)*10);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>game = setInterval(draw, speed);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function draw() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.clearRect(0, 0, canvas.width, canvas.height);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// </span><span class="s2">画蛇</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>snake.forEach((s, i) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ctx.fillStyle = i === 0 ? "lime" : "green";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ctx.fillRect(s.x, s.y, box, box);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// </span><span class="s2">画食物</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.fillStyle = "red";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.fillRect(food.x, food.y, box, box);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// </span><span class="s2">移动蛇头</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let head = { x: snake[0].x + dx, y: snake[0].y + dy };</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// </span><span class="s2">撞墙或撞到自己</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>head.x &lt; 0 || head.x &gt;= canvas.width ||</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>head.y &lt; 0 || head.y &gt;= canvas.height ||</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>snake.some(segment =&gt; segment.x === head.x &amp;&amp; segment.y === head.y)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>clearInterval(game);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>alert("</span><span class="s2">游戏结束！得分：</span><span class="s1">" + score);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>location.reload();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>snake.unshift(head);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// </span><span class="s2">吃到食物</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (head.x === food.x &amp;&amp; head.y === food.y) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>score++;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById("score").textContent = "</span><span class="s2">得分</span><span class="s1">: " + score;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>food = randomPosition();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>updateSpeed();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>snake.pop();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// </span><span class="s2">开始游戏</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>updateSpeed();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+    <h1>俄罗斯方块</h1>
+    <div id="game-container">
+        <canvas id="tetris-canvas" width="300" height="600"></canvas>
+        <div id="side-panel">
+            <div id="score-display">得分: 0</div>
+            <div id="level-display">等级: 1</div>
+            <canvas id="next-piece" width="120" height="120"></canvas>
+        </div>
+    </div>
+    <div id="game-over">
+        <div>游戏结束!</div>
+        <div id="final-score">得分: 0</div>
+        <button id="restart-btn">重新开始</button>
+    </div>
+    <div id="controls">
+        <p>控制: ← → 移动 | ↑ 旋转 | ↓ 加速下落 | 空格 直接落下</p>
+    </div>
+
+    <script>
+        // 获取Canvas元素和上下文
+        const canvas = document.getElementById('tetris-canvas');
+        const ctx = canvas.getContext('2d');
+        const nextCanvas = document.getElementById('next-piece');
+        const nextCtx = nextCanvas.getContext('2d');
+        
+        // 游戏参数
+        const blockSize = 30;
+        const cols = canvas.width / blockSize;
+        const rows = canvas.height / blockSize;
+        let score = 0;
+        let level = 1;
+        let lines = 0;
+        let gameSpeed = 800;
+        let dropStart = Date.now();
+        let gameOver = false;
+        
+        // 方块形状和颜色
+        const shapes = [
+            { shape: [[1, 1, 1, 1]], color: '#00FFFF' },  // I
+            { shape: [[1, 1, 1], [0, 1, 0]], color: '#800080' },  // T
+            { shape: [[1, 1, 1], [1, 0, 0]], color: '#0000FF' },  // J
+            { shape: [[1, 1, 1], [0, 0, 1]], color: '#FF7F00' },  // L
+            { shape: [[1, 1], [1, 1]], color: '#FFFF00' },  // O
+            { shape: [[0, 1, 1], [1, 1, 0]], color: '#00FF00' },  // S
+            { shape: [[1, 1, 0], [0, 1, 1]], color: '#FF0000' }   // Z
+        ];
+        
+        // 游戏板
+        let board = Array(rows).fill().map(() => Array(cols).fill(0));
+        
+        // 当前方块和下一个方块
+        let currentPiece = null;
+        let nextPiece = null;
+        
+        // 初始化游戏
+        function initGame() {
+            board = Array(rows).fill().map(() => Array(cols).fill(0));
+            score = 0;
+            level = 1;
+            lines = 0;
+            gameSpeed = 800;
+            gameOver = false;
+            document.getElementById('score-display').textContent = `得分: ${score}`;
+            document.getElementById('level-display').textContent = `等级: ${level}`;
+            document.getElementById('game-over').style.display = 'none';
+            
+            createNewPiece();
+            createNextPiece();
+            update();
+        }
+        
+        // 创建新方块
+        function createNewPiece() {
+            currentPiece = nextPiece || getRandomPiece();
+            currentPiece.x = Math.floor(cols / 2) - Math.floor(currentPiece.shape[0].length / 2);
+            currentPiece.y = 0;
+            
+            // 检查游戏是否结束
+            if (collision()) {
+                gameOver = true;
+                document.getElementById('final-score').textContent = `得分: ${score}`;
+                document.getElementById('game-over').style.display = 'flex';
+            }
+            
+            createNextPiece();
+        }
+        
+        // 创建下一个方块
+        function createNextPiece() {
+            nextPiece = getRandomPiece();
+            drawNextPiece();
+        }
+        
+        // 获取随机方块
+        function getRandomPiece() {
+            const piece = JSON.parse(JSON.stringify(shapes[Math.floor(Math.random() * shapes.length)]));
+            piece.x = 0;
+            piece.y = 0;
+            return piece;
+        }
+        
+        // 绘制下一个方块预览
+        function drawNextPiece() {
+            nextCtx.fillStyle = '#111';
+            nextCtx.fillRect(0, 0, nextCanvas.width, nextCanvas.height);
+            
+            if (!nextPiece) return;
+            
+            const offsetX = (nextCanvas.width - nextPiece.shape[0].length * blockSize / 2) / 2;
+            const offsetY = (nextCanvas.height - nextPiece.shape.length * blockSize / 2) / 2;
+            
+            for (let y = 0; y < nextPiece.shape.length; y++) {
+                for (let x = 0; x < nextPiece.shape[y].length; x++) {
+                    if (nextPiece.shape[y][x]) {
+                        nextCtx.fillStyle = nextPiece.color;
+                        nextCtx.fillRect(
+                            offsetX + x * blockSize / 2, 
+                            offsetY + y * blockSize / 2, 
+                            blockSize / 2 - 1, 
+                            blockSize / 2 - 1
+                        );
+                    }
+                }
+            }
+        }
+        
+        // 绘制游戏
+        function draw() {
+            // 清空画布
+            ctx.fillStyle = '#111';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 绘制已固定的方块
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    if (board[y][x]) {
+                        ctx.fillStyle = board[y][x];
+                        ctx.fillRect(x * blockSize, y * blockSize, blockSize - 1, blockSize - 1);
+                    }
+                }
+            }
+            
+            // 绘制当前方块
+            if (currentPiece) {
+                for (let y = 0; y < currentPiece.shape.length; y++) {
+                    for (let x = 0; x < currentPiece.shape[y].length; x++) {
+                        if (currentPiece.shape[y][x]) {
+                            ctx.fillStyle = currentPiece.color;
+                            ctx.fillRect(
+                                (currentPiece.x + x) * blockSize, 
+                                (currentPiece.y + y) * blockSize, 
+                                blockSize - 1, 
+                                blockSize - 1
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        
+        // 移动方块
+        function movePiece(direction) {
+            if (!currentPiece || gameOver) return;
+            
+            switch (direction) {
+                case 'left':
+                    currentPiece.x--;
+                    if (collision()) currentPiece.x++;
+                    break;
+                case 'right':
+                    currentPiece.x++;
+                    if (collision()) currentPiece.x--;
+                    break;
+                case 'down':
+                    currentPiece.y++;
+                    if (collision()) {
+                        currentPiece.y--;
+                        lockPiece();
+                        createNewPiece();
+                        clearLines();
+                    }
+                    dropStart = Date.now();
+                    break;
+                case 'rotate':
+                    rotatePiece();
+                    break;
+                case 'drop':
+                    while (!collision()) {
+                        currentPiece.y++;
+                    }
+                    currentPiece.y--;
+                    lockPiece();
+                    createNewPiece();
+                    clearLines();
+                    dropStart = Date.now();
+                    break;
+            }
+        }
+        
+        // 旋转方块
+        function rotatePiece() {
+            if (!currentPiece) return;
+            
+            const originalShape = currentPiece.shape;
+            const rows = currentPiece.shape.length;
+            const cols = currentPiece.shape[0].length;
+            
+            // 创建新形状
+            let newShape = Array(cols).fill().map(() => Array(rows).fill(0));
+            
+            // 旋转矩阵
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    newShape[x][rows - 1 - y] = currentPiece.shape[y][x];
+                }
+            }
+            
+            currentPiece.shape = newShape;
+            
+            // 如果旋转后发生碰撞，则恢复原状
+            if (collision()) {
+                currentPiece.shape = originalShape;
+            }
+        }
+        
+        // 检查碰撞
+        function collision() {
+            if (!currentPiece) return false;
+            
+            for (let y = 0; y < currentPiece.shape.length; y++) {
+                for (let x = 0; x < currentPiece.shape[y].length; x++) {
+                    if (
+                        currentPiece.shape[y][x] !== 0 &&
+                        (currentPiece.y + y >= rows ||
+                         currentPiece.x + x < 0 ||
+                         currentPiece.x + x >= cols ||
+                         board[currentPiece.y + y][currentPiece.x + x])
+                    ) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        
+        // 锁定方块到游戏板
+        function lockPiece() {
+            for (let y = 0; y < currentPiece.shape.length; y++) {
+                for (let x = 0; x < currentPiece.shape[y].length; x++) {
+                    if (currentPiece.shape[y][x]) {
+                        board[currentPiece.y + y][currentPiece.x + x] = currentPiece.color;
+                    }
+                }
+            }
+        }
+        
+        // 清除已满的行
+        function clearLines() {
+            let linesCleared = 0;
+            
+            for (let y = rows - 1; y >= 0; y--) {
+                if (board[y].every(cell => cell !== 0)) {
+                    // 移除该行
+                    board.splice(y, 1);
+                    // 在顶部添加新行
+                    board.unshift(Array(cols).fill(0));
+                    linesCleared++;
+                    y++; // 重新检查当前行（因为上面的行下移了）
+                }
+            }
+            
+            if (linesCleared > 0) {
+                // 计算得分
+                const points = [0, 100, 300, 500, 800][linesCleared] * level;
+                score += points;
+                lines += linesCleared;
+                
+                // 每清除10行升一级
+                if (lines >= level * 10) {
+                    level++;
+                    gameSpeed = Math.max(100, gameSpeed - 100); // 加快游戏速度，最低100ms
+                }
+                
+                document.getElementById('score-display').textContent = `得分: ${score}`;
+                document.getElementById('level-display').textContent = `等级: ${level}`;
+            }
+        }
+        
+        // 游戏主循环
+        function update() {
+            if (gameOver) return;
+            
+            const now = Date.now();
+            const delta = now - dropStart;
+            
+            if (delta > gameSpeed) {
+                movePiece('down');
+            }
+            
+            draw();
+            requestAnimationFrame(update);
+        }
+        
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (gameOver && e.key === ' ') {
+                initGame();
+                return;
+            }
+            
+            switch (e.key) {
+                case 'ArrowLeft':
+                    movePiece('left');
+                    break;
+                case 'ArrowRight':
+                    movePiece('right');
+                    break;
+                case 'ArrowDown':
+                    movePiece('down');
+                    break;
+                case 'ArrowUp':
+                    movePiece('rotate');
+                    break;
+                case ' ':
+                    movePiece('drop');
+                    break;
+            }
+        });
+        
+        // 重新开始按钮
+        document.getElementById('restart-btn').addEventListener('click', initGame);
+        
+        // 开始游戏
+        initGame();
+    </script>
 </body>
 </html>
