@@ -42,79 +42,92 @@
 <p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
 <p class="p1"><span class="s1">&lt;/head&gt;</span></p>
 <p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;canvas id="game" width="400" height="400"&gt;&lt;/canvas&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="score"&gt;</span><span class="s2">得分</span><span class="s1">: 0&lt;/div&gt;</span></p>
 <p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">&lt;canvas id="game" width="400" height="400"&gt;&lt;/canvas&gt;</span></p>
-<p class="p1"><span class="s1">&lt;div id="score"&gt;</span><span class="s2">得分</span><span class="s1">: 0&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const canvas = document.getElementById("game");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const ctx = canvas.getContext("2d");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const box = 20;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const rows = canvas.height / box;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const cols = canvas.width / box;</span></p>
 <p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const canvas = document.getElementById("game");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const ctx = canvas.getContext("2d");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const box = 20;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const rows = canvas.height / box;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const cols = canvas.width / box;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let score = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let snake = [{x: 9 * box, y: 9 * box}];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let food = randomPosition();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let dx = box, dy = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let game = null;</span></p>
 <p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let score = 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let snake = [{x: 9 * box, y: 9 * box}];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let food = randomPosition();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let dx = box, dy = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.addEventListener("keydown", direction);</span></p>
 <p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.addEventListener("keydown", direction);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function direction(e) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (e.key === "ArrowLeft" &amp;&amp; dx === 0) { dx = -box; dy = 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>else if (e.key === "ArrowUp" &amp;&amp; dy === 0) { dx = 0; dy = -box; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>else if (e.key === "ArrowRight" &amp;&amp; dx === 0) { dx = box; dy = 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>else if (e.key === "ArrowDown" &amp;&amp; dy === 0) { dx = 0; dy = box; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function randomPosition() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>x: Math.floor(Math.random() * cols) * box,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>y: Math.floor(Math.random() * rows) * box</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function draw() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.clearRect(0, 0, canvas.width, canvas.height);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// </span><span class="s2">画蛇</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>snake.forEach((s, i) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.fillStyle = i === 0 ? "lime" : "green";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.fillRect(s.x, s.y, box, box);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// </span><span class="s2">画食物</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.fillStyle = "red";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.fillRect(food.x, food.y, box, box);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// </span><span class="s2">移动蛇头</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let head = { x: snake[0].x + dx, y: snake[0].y + dy };</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// </span><span class="s2">撞墙或撞到自己</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>head.x &lt; 0 || head.x &gt;= canvas.width ||</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>head.y &lt; 0 || head.y &gt;= canvas.height ||</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>snake.some(segment =&gt; segment.x === head.x &amp;&amp; segment.y === head.y)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>alert("</span><span class="s2">游戏结束！得分：</span><span class="s1">" + score);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>location.reload();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function direction(e) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const key = e.key;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (key === "ArrowLeft" &amp;&amp; dx !== box) { dx = -box; dy = 0; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>else if (key === "ArrowUp" &amp;&amp; dy !== box) { dx = 0; dy = -box; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>else if (key === "ArrowRight" &amp;&amp; dx !== -box) { dx = box; dy = 0; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>else if (key === "ArrowDown" &amp;&amp; dy !== -box) { dx = 0; dy = box; }</span></p>
 <p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
 <p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>snake.unshift(head);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// </span><span class="s2">吃到食物</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (head.x === food.x &amp;&amp; head.y === food.y) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>score++;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById("score").textContent = "</span><span class="s2">得分</span><span class="s1">: " + score;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>food = randomPosition();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>snake.pop();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function randomPosition() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let position;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>do {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>position = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>x: Math.floor(Math.random() * cols) * box,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>y: Math.floor(Math.random() * rows) * box</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} while (snake.some(segment =&gt; segment.x === position.x &amp;&amp; segment.y === position.y));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return position;</span></p>
 <p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
 <p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>setInterval(draw, 100);</span></p>
-<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function updateSpeed() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>clearInterval(game);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const speed = Math.max(50, 100 - Math.floor(score/5)*10);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>game = setInterval(draw, speed);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
 <p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function draw() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.clearRect(0, 0, canvas.width, canvas.height);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// </span><span class="s2">画蛇</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>snake.forEach((s, i) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ctx.fillStyle = i === 0 ? "lime" : "green";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ctx.fillRect(s.x, s.y, box, box);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// </span><span class="s2">画食物</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.fillStyle = "red";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.fillRect(food.x, food.y, box, box);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// </span><span class="s2">移动蛇头</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let head = { x: snake[0].x + dx, y: snake[0].y + dy };</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// </span><span class="s2">撞墙或撞到自己</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>head.x &lt; 0 || head.x &gt;= canvas.width ||</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>head.y &lt; 0 || head.y &gt;= canvas.height ||</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>snake.some(segment =&gt; segment.x === head.x &amp;&amp; segment.y === head.y)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>clearInterval(game);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>alert("</span><span class="s2">游戏结束！得分：</span><span class="s1">" + score);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>location.reload();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>snake.unshift(head);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// </span><span class="s2">吃到食物</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (head.x === food.x &amp;&amp; head.y === food.y) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>score++;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById("score").textContent = "</span><span class="s2">得分</span><span class="s1">: " + score;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>food = randomPosition();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>updateSpeed();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>snake.pop();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// </span><span class="s2">开始游戏</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>updateSpeed();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</span></p>
 <p class="p1"><span class="s1">&lt;/body&gt;</span></p>
 <p class="p1"><span class="s1">&lt;/html&gt;</span></p>
 </body>
